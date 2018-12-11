@@ -1,0 +1,27 @@
+<ion-header>
+
+    <ion-navbar color="secondary">
+      <ion-title>category Form</ion-title>
+
+      <ion-buttons end>
+        <button ion-button icon-only (click)="saveCategory()">
+          <ion-icon name="checkmark"></ion-icon>
+        </button>
+      </ion-buttons>
+
+    </ion-navbar>
+
+  </ion-header>
+
+<ion-content padding>
+    <form [formGroup]='categoryForm' >
+        <ion-item>
+          <ion-label floating>title </ion-label>
+          <ion-input type="text" #title formControlName="title" [(ngModel)]="category.title"></ion-input>
+
+        </ion-item>
+        <div class="error" *ngIf="categoryForm.get('title').hasError('required') && categoryForm.get('title').touched">
+          Please input category title
+        </div>
+      </form>
+</ion-content>

@@ -1,0 +1,34 @@
+<ion-header>
+
+    <ion-navbar color="secondary">
+      <ion-title>categories list</ion-title>
+      <ion-buttons end>
+        <button ion-button icon-only  (click)="addCategory()">
+          <ion-icon name="add" class="white"></ion-icon>
+        </button>
+      </ion-buttons>
+    </ion-navbar>
+
+  </ion-header>
+
+
+  <ion-content >
+      <ion-list>
+          <ion-item-sliding *ngFor="let category of categories">
+            <ion-item (click)="categoryTasks(category.title)">
+              <h2>{{category.title}}</h2>
+            </ion-item>
+            <ion-item-options side="right">
+              <button ion-button color="danger" (click)="confirmDelete(category.ID)">
+                <ion-icon name="trash"></ion-icon>
+                Delete
+              </button>
+              <button ion-button color="primary" (click)="editCategory(category)">
+                <ion-icon name="create"></ion-icon>
+                Edit
+              </button>
+            </ion-item-options>
+          </ion-item-sliding>
+        </ion-list>
+
+  </ion-content>
