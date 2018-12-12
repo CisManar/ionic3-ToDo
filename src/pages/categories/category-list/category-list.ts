@@ -58,8 +58,6 @@ export class CategoryListPage {
     
     let index = this.categories.indexOf(category);
 
-    let a = this.categories.filter((item, i) => i != index);
-    console.log(a);
 
     this.categories = this.categories.filter((item, i) => i != index);
 

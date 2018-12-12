@@ -32,7 +32,7 @@ export class TaskFormPage {
     private events: Events) {
 
 
-    this.task = navParams.get('Task') ? navParams.get('Task') : {};
+    this.task = navParams.get('Task') ? navParams.get('Task') : this.task;
     this.isNew =  this.task.title ? false : true;
 
     this.categoryTitle = navParams.get('categoryTitle');

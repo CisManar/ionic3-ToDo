@@ -11,7 +11,9 @@ import Lockr from 'lockr';
 export class CategoryFormPage {
 
   categoryForm: FormGroup;
-  category: any;
+  category: any = {
+    title:''
+  };
   categories: any[] = [];
   isNew: boolean = true;
 
@@ -19,8 +21,8 @@ export class CategoryFormPage {
   constructor(public navCtrl: NavController, public navParams: NavParams,
     private fb: FormBuilder) {
 
+    this.categories = Lockr.get('categories');
 
-    this.index = this.categories.findIndex(i=>i.title == this.category.title);
     //this.index = this.categories.map(function (obj) { return obj.title; }).indexOf(this.category.title);
   
 
