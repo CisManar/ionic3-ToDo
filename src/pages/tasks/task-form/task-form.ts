@@ -1,12 +1,8 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, Events, Alert } from 'ionic-angular';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import Lockr from 'lockr';
 
-/**
- * Generated class for the TaskFormPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
 
 @IonicPage()
 @Component({
@@ -15,11 +11,75 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 })
 export class TaskFormPage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  categoryTitle: any;
+  taskForm: FormGroup;
+  tasks: any[] = [];
+  categories: any[] = [];
+  isNew: boolean = true;
+
+  task: any = {
+    title: '',
+    description: '',
+    dueDate: ''
+  };
+
+  categoryIndex: number;
+  taskIndex: number;
+
+  constructor(public navCtrl: NavController,
+    public navParams: NavParams,
+    private formbuilder: FormBuilder,
+    private events: Events) {
+
+
+    this.task = navParams.get('Task') ? navParams.get('Task') : {};
+    this.isNew =  this.task.title ? false : true;
+
+    this.categoryTitle = navParams.get('categoryTitle');
+
+    this.categories = Lockr.get('categories') ? Lockr.get('categories') : [];
+
+    //find index of this category 
+    this.categoryIndex = this.categories.findIndex(i => i.title == this.categoryTitle);
+
+    // get tasks aray with this category
+    this.tasks = this.categories[this.categoryIndex].tasks;
+
+    //find index of this task
+    this.taskIndex = this.tasks.findIndex(i => i.title == this.task.title);
+
+
+
+    this.taskForm = formbuilder.group({
+      title: ['', Validators.required],
+      description: ['', Validators.required],
+      dueDate: ['', Validators.required]
+    })
+
+
+
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad TaskFormPage');
+
+
+
   }
+
+  save() {
+    this.isNew ?
+      this.categories[this.categoryIndex].tasks.push(this.task) :
+      this.categories[this.categoryIndex].tasks[this.taskIndex] = this.task;
+
+    Lockr.set('categories', this.categories)
+
+    this.navCtrl.pop();
+   
+
+
+
+  }
+
 
 }
