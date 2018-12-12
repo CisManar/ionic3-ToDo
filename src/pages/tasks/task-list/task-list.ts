@@ -28,13 +28,13 @@ export class TaskListPage {
 
     this.categories = Lockr.get('categories') ? Lockr.get('categories') : [];
 
-    //find index of this category 
+    //find index of this category
     this.categoryIndex = this.categories.findIndex(i => i.title == this.categoryTitle);
 
     // get tasks aray with this category
     this.tasks = this.categories[this.categoryIndex].tasks;
 
-    
+
 
   }
 
@@ -46,7 +46,6 @@ export class TaskListPage {
     this.tasks = this.categories[this.categoryIndex].tasks;
   }
   addTask() {
-    this.navCtrl.pop();
     this.navCtrl.push('TaskFormPage', { categoryTitle: this.categoryTitle });
 
   }
@@ -81,13 +80,13 @@ export class TaskListPage {
   deleteTask(task) {
     this.tasks = this.tasks.filter(x=>x.title != task.title)
     this.categories[this.categoryIndex].tasks = this.tasks;
-   
+
     Lockr.set('categories', this.categories)
 
   }
 
   viewTaskDetails(Task) {
-    this.navCtrl.pop();
+
     this.navCtrl.push('TaskDetailsPage' , {categoryTitle: this.categoryTitle, Task: Task})
 
   }

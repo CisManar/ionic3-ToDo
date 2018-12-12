@@ -72,17 +72,16 @@ export class TaskDetailsPage {
 
     this.tasks = this.tasks.filter(x=>x.title != task.title)
     this.categories[this.categoryIndex].tasks = this.tasks;
-   
+
     Lockr.set('categories', this.categories)
 
-   
-    
+
+
     Lockr.set('categories', this.categories)
- 
+
     this.navCtrl.pop();
 
-    this.navCtrl.push('TaskListPage' , {categoryTitle: this.categoryTitle})
-   
+
 
   }
 

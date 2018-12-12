@@ -12,7 +12,7 @@ export class CategoryFormPage {
 
   categoryForm: FormGroup;
   category: any = {
-    title:''
+    title: ''
   };
   categories: any[] = [];
   isNew: boolean = true;
@@ -21,10 +21,10 @@ export class CategoryFormPage {
   constructor(public navCtrl: NavController, public navParams: NavParams,
     private fb: FormBuilder) {
 
-    this.categories = Lockr.get('categories');
+    this.categories = Lockr.get('categories') ? Lockr.get('categories') : [];
 
     //this.index = this.categories.map(function (obj) { return obj.title; }).indexOf(this.category.title);
-  
+
 
     this.categoryForm = fb.group({
 
@@ -38,19 +38,24 @@ export class CategoryFormPage {
   }
 
   saveCategory() {
+
+    if (this.categoryForm.invalid) {
+      return;
+    }
+
     if (this.isNew) {
       this.category['tasks'] = [];
       console.log(this.category)
-     this.categories.push(this.category)
+      this.categories.push(this.category);
 
     } else {
       this.categories[this.index].title = this.category.title;
 
     }
-    Lockr.set('categories', this.categories);
+      Lockr.set('categories', this.categories);
 
     this.navCtrl.pop();
   }
-  
+
 
 }

@@ -39,7 +39,7 @@ export class TaskFormPage {
 
     this.categories = Lockr.get('categories') ? Lockr.get('categories') : [];
 
-    //find index of this category 
+    //find index of this category
     this.categoryIndex = this.categories.findIndex(i => i.title == this.categoryTitle);
 
     // get tasks aray with this category
@@ -68,6 +68,9 @@ export class TaskFormPage {
   }
 
   save() {
+    if(this.taskForm.invalid) {
+      return
+    }
     this.isNew ?
       this.categories[this.categoryIndex].tasks.push(this.task) :
       this.categories[this.categoryIndex].tasks[this.taskIndex] = this.task;
@@ -75,7 +78,7 @@ export class TaskFormPage {
     Lockr.set('categories', this.categories)
 
     this.navCtrl.pop();
-   
+
 
 
 
