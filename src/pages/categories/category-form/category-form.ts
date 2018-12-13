@@ -16,15 +16,17 @@ export class CategoryFormPage {
   };
   categories: any[] = [];
   isNew: boolean = true;
+  index:number ;
 
-  index: number;
   constructor(public navCtrl: NavController, public navParams: NavParams,
     private fb: FormBuilder) {
 
+    this.category = navParams.get('category') ? navParams.get('category') : {};
     this.categories = Lockr.get('categories') ? Lockr.get('categories') : [];
+    this.isNew = navParams.get('category') ? false : true;
 
-    //this.index = this.categories.map(function (obj) { return obj.title; }).indexOf(this.category.title);
 
+    this.index = this.categories.findIndex(i=> JSON.stringify(i) == JSON.stringify(this.category));
 
     this.categoryForm = fb.group({
 
@@ -45,14 +47,17 @@ export class CategoryFormPage {
 
     if (this.isNew) {
       this.category['tasks'] = [];
-      console.log(this.category)
       this.categories.push(this.category);
 
     } else {
-      this.categories[this.index].title = this.category.title;
 
+
+
+
+    console.log(this.index)
+      this.categories[this.index].title = this.category.title;
     }
-      Lockr.set('categories', this.categories);
+    Lockr.set('categories', this.categories);
 
     this.navCtrl.pop();
   }

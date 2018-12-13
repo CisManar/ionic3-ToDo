@@ -15,7 +15,7 @@
   <ion-content >
       <ion-list>
           <ion-item-sliding *ngFor="let category of categories">
-            <ion-item (click)="categoryTasks(category.title)">
+            <ion-item (click)="categoryTasks(category)">
               <h2>{{category.title}}</h2>
             </ion-item>
             <ion-item-options side="right">

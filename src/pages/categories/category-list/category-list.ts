@@ -28,8 +28,8 @@ export class CategoryListPage {
   editCategory(category) {
     this.navCtrl.push('CategoryFormPage',{ category : category})
   }
-  categoryTasks(categoryTitle) {
-    this.navCtrl.push('TaskListPage' , {categoryTitle: categoryTitle})
+  categoryTasks(category) {
+    this.navCtrl.push('TaskListPage' , {category: category})
   }
   confirmDelete(category) {
     let alert = this.alertCtrl.create({
@@ -53,15 +53,15 @@ export class CategoryListPage {
     });
     alert.present();
   }
-  
+
   deleteCategory(category) {
-    
+
     let index = this.categories.indexOf(category);
 
 
     this.categories = this.categories.filter((item, i) => i != index);
 
-   
+
     Lockr.set('categories', this.categories);
   }
 
