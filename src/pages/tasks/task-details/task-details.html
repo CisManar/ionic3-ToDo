@@ -19,16 +19,20 @@
   <div class="container">
     <ion-card>
       <ion-card-header>
-        <h6 class="gray right" end>{{task.dueDate | date :'dd-MM-yyyy'}}</h6> 
+        <h6 class="gray right" end>{{task.dueDate | date :'dd-MM-yyyy'}}</h6>
 
-        <h1> {{task.title}} </h1> 
-        
+        <h1> {{task.title}} </h1>
+
       </ion-card-header>
       <ion-card-content>
         <h3>{{catName}}</h3>
         <h5> <b class="description">{{task.description}}</b> </h5>
         <br>
-        
+
+        <span *ngFor = "let tag of tags">
+            <ion-badge color="secondary">{{tag}}</ion-badge>
+        </span>
+
       </ion-card-content>
     </ion-card>
   </div>

@@ -16,13 +16,15 @@ export class TaskFormPage {
   tasks: any[] = [];
   categories: any[] = [];
   isNew: boolean = true;
-  category:any;
+  category: any;
 
   task: any = {
     title: '',
     description: '',
-    dueDate: ''
+    dueDate: '',
+    tasktags: []
   };
+  tags = [];
 
   categoryIndex: number;
   taskIndex: number;
@@ -33,38 +35,50 @@ export class TaskFormPage {
     private events: Events) {
 
 
-      /** initializing  */
-      this.category = navParams.get('category');
-      this.task = navParams.get('Task') ? navParams.get('Task') : this.task;
-      this.isNew =  this.task.title ? false : true;
-  
-      this.categories = Lockr.get('categories') ? Lockr.get('categories') : [];
-  
-      //find index of this category
-      this.categoryIndex = this.categories.findIndex(i=> JSON.stringify(i) == JSON.stringify(this.category));
-  
-      //find index of this task
-      this.taskIndex = this.categories[this.categoryIndex].tasks.findIndex(i => JSON.stringify(i) == JSON.stringify(this.task));
-      console.log("taskIndex is :" , this.taskIndex)
-  
-      this.taskForm = formbuilder.group({
-        title: ['', Validators.required],
-        description: ['', Validators.required],
-        dueDate: ['', Validators.required]
-      })
-  
+    /** initializing  */
+    this.category = navParams.get('category');
+    this.task = navParams.get('Task') ? navParams.get('Task') : this.task;
+    this.tags = navParams.get('Task') ? this.task.tasktags : [];
 
+    this.isNew = this.task.title ? false : true;
+
+    this.categories = Lockr.get('categories') ? Lockr.get('categories') : [];
+
+    //find index of this category
+    this.categoryIndex = this.categories.findIndex(i => JSON.stringify(i) == JSON.stringify(this.category));
+
+    //find index of this task
+    this.taskIndex = this.categories[this.categoryIndex].tasks.findIndex(i => JSON.stringify(i) == JSON.stringify(this.task));
+    console.log("taskIndex is :", this.taskIndex)
+
+    this.taskForm = formbuilder.group({
+      title: ['', Validators.required],
+      description: ['', Validators.required],
+      dueDate: ['', Validators.required],
+      tasktags: []
+    })
+
+
+  }
+
+  onChange(val) {
+    console.log(this.tags)
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad TaskFormPage');
   }
   ionVieDidEnter() {
-    
+
     this.categories = Lockr.get('categories') ? Lockr.get('categories') : [];
   }
   save() {
-    if(this.taskForm.invalid) {
+
+    this.task.tasktags = this.tags;
+
+    console.log(this.category);
+
+    if (this.taskForm.invalid) {
       return
     }
     this.isNew ?
@@ -74,9 +88,6 @@ export class TaskFormPage {
     Lockr.set('categories', this.categories)
 
     this.navCtrl.pop();
-
-
-
 
   }
 

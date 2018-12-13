@@ -12,7 +12,8 @@ export class TaskDetailsPage {
   task: any = {
     title: '',
     description: '',
-    dueDate: ''
+    dueDate: '',
+    tasktags : []
   };
   categoryTitle: any;
 
@@ -23,11 +24,15 @@ export class TaskDetailsPage {
 
   category : any;
   tasks: any[] = [];
+  tags : any[] = [];
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
     private alertCtrl: AlertController) {
 
     this.task = navParams.get('Task') ? navParams.get('Task') : this.task;
+    this.tags = navParams.get('Task') ? this.task.tasktags : [];
+    console.log(this.tags)
+
     this.category = navParams.get('category');
     this.categoryTitle = this.category.title;
 
@@ -36,7 +41,7 @@ export class TaskDetailsPage {
 
       //find index of this category
       this.categoryIndex = this.categories.findIndex(i=> JSON.stringify(i) == JSON.stringify(this.category));
-  
+
 
       this.taskIndex = this.categories[this.categoryIndex].tasks.findIndex(i => JSON.stringify(i) == JSON.stringify(this.task));
 
@@ -74,7 +79,7 @@ export class TaskDetailsPage {
   deleteTask(task) {
 
     let taskIndex = this.categories[this.categoryIndex].tasks.findIndex((i) => JSON.stringify(i) == JSON.stringify(task));
-    
+
     let tasksOfCategory = this.categories[this.categoryIndex].tasks;
     let tasks = tasksOfCategory.filter(i => tasksOfCategory.indexOf(i) != taskIndex);
 

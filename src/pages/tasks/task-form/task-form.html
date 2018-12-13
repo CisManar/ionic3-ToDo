@@ -13,6 +13,7 @@
 
 
 <ion-content>
+
   <form [formGroup]='taskForm'>
 
 
@@ -42,17 +43,12 @@
       <div class="error" *ngIf="taskForm.get('dueDate').hasError('required') && taskForm.get('dueDate').touched">
         Please input task due Date
       </div>
+      <ion-tags-input formControlName="tasktags" [(ngModel)]="tags" [canEnterAdd]="true"  (onChange)="onChange($event)"></ion-tags-input>
 
-      <!--
-         <ion-item>
-        <ion-label>Tags</ion-label>
-        <ion-tags-input formControlName="tags" (onChange)="onChange($event)" [color]="'dark'"  [separatorStr]="','" [placeholder]="'add tag'"></ion-tags-input>
-      </ion-item> 
-    -->
     </ion-list>
 
 
-   
+
 
   </form>
 </ion-content>
