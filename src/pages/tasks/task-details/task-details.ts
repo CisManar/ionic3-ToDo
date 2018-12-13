@@ -21,22 +21,25 @@ export class TaskDetailsPage {
 
   categories: any[] = [];
 
+  category : any;
   tasks: any[] = [];
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
     private alertCtrl: AlertController) {
 
     this.task = navParams.get('Task') ? navParams.get('Task') : this.task;
-    this.categoryTitle = navParams.get('categoryTitle');
+    this.category = navParams.get('category');
+    this.categoryTitle = this.category.title;
 
     this.categories = Lockr.get('categories') ? Lockr.get('categories') : [];
     console.log('categories', this.categories);
 
-    this.categoryIndex = this.categories.findIndex(i => i.title == this.categoryTitle);
+      //find index of this category
+      this.categoryIndex = this.categories.findIndex(i=> JSON.stringify(i) == JSON.stringify(this.category));
+  
 
-    this.taskIndex = this.categories[this.categoryIndex].tasks.findIndex(i => i.title == this.task.title);
+      this.taskIndex = this.categories[this.categoryIndex].tasks.findIndex(i => JSON.stringify(i) == JSON.stringify(this.task));
 
-    this.tasks = this.categories[this.categoryIndex].tasks;
 
 
   }
@@ -70,15 +73,14 @@ export class TaskDetailsPage {
 
   deleteTask(task) {
 
-    this.tasks = this.tasks.filter(x=>x.title != task.title)
-    this.categories[this.categoryIndex].tasks = this.tasks;
+    let taskIndex = this.categories[this.categoryIndex].tasks.findIndex((i) => JSON.stringify(i) == JSON.stringify(task));
+    
+    let tasksOfCategory = this.categories[this.categoryIndex].tasks;
+    let tasks = tasksOfCategory.filter(i => tasksOfCategory.indexOf(i) != taskIndex);
+
+    this.categories[this.categoryIndex].tasks = tasks;
 
     Lockr.set('categories', this.categories)
-
-
-
-    Lockr.set('categories', this.categories)
-
     this.navCtrl.pop();
 
 
@@ -86,7 +88,6 @@ export class TaskDetailsPage {
   }
 
   editTask(Task: any) {
- //   this.navCtrl.pop();
-    this.navCtrl.push('TaskFormPage', { categoryTitle: this.categoryTitle, Task: Task });
-  }
+  this.navCtrl.push('TaskFormPage', { category: this.category, Task: Task });
+}
 }
