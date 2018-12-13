@@ -19,7 +19,7 @@ export class CategoryListPage {
     console.log('ionViewDidLoad CategoryListPage');
   }
   ionViewDidEnter() {
-    this.categories = Lockr.get('categories');
+    this.categories = Lockr.get('categories') ? Lockr.get('categories') : [];
   }
 
   addCategory() {
