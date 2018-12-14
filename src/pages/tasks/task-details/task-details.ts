@@ -31,13 +31,11 @@ export class TaskDetailsPage {
 
     this.task = navParams.get('Task') ? navParams.get('Task') : this.task;
     this.tags = navParams.get('Task') ? this.task.tasktags : [];
-    console.log(this.tags)
 
     this.category = navParams.get('category');
     this.categoryTitle = this.category.title;
 
     this.categories = Lockr.get('categories') ? Lockr.get('categories') : [];
-    console.log('categories', this.categories);
 
       //find index of this category
       this.categoryIndex = this.categories.findIndex(i=> JSON.stringify(i) == JSON.stringify(this.category));

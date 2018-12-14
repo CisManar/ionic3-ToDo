@@ -16,6 +16,7 @@ export class TaskListPage {
 
   categoryIndex: number;
   category:any;
+  categoryTitle: string;
 
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
@@ -23,6 +24,7 @@ export class TaskListPage {
     private alertCtrl : AlertController) {
 
       this.category = navParams.get('category');
+      this.categoryTitle = this.category.title;
       this.categories = Lockr.get('categories') ? Lockr.get('categories') : [];
       //index of category
       this.categoryIndex = this.categories.findIndex(i=> JSON.stringify(i) == JSON.stringify(this.category));
@@ -34,7 +36,6 @@ export class TaskListPage {
   }
   ionViewDidEnter() {
     this.categories = Lockr.get('categories') ?  Lockr.get('categories'): [];
-    console.log("category::::",this.category)
   }
   addTask() {
     this.navCtrl.push('TaskFormPage', { category: this.category });
@@ -71,7 +72,7 @@ export class TaskListPage {
 
   deleteTask(task) {
     let taskIndex = this.categories[this.categoryIndex].tasks.findIndex((i) => JSON.stringify(i) == JSON.stringify(task));
-    
+
     let tasksOfCategory = this.categories[this.categoryIndex].tasks;
     let tasks = tasksOfCategory.filter(i => tasksOfCategory.indexOf(i) != taskIndex);
 

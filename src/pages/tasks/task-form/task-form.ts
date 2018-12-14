@@ -49,7 +49,6 @@ export class TaskFormPage {
 
     //find index of this task
     this.taskIndex = this.categories[this.categoryIndex].tasks.findIndex(i => JSON.stringify(i) == JSON.stringify(this.task));
-    console.log("taskIndex is :", this.taskIndex)
 
     this.taskForm = formbuilder.group({
       title: ['', Validators.required],
@@ -76,7 +75,6 @@ export class TaskFormPage {
 
     this.task.tasktags = this.tags;
 
-    console.log(this.category);
 
     if (this.taskForm.invalid) {
       return

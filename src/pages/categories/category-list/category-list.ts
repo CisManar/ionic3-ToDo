@@ -29,7 +29,7 @@ export class CategoryListPage {
     this.navCtrl.push('CategoryFormPage',{ category : category})
   }
   categoryTasks(category) {
-    this.navCtrl.push('TaskListPage' , {category: category})
+    this.navCtrl.push('TaskslistPage' , {category: category})
   }
   confirmDelete(category) {
     let alert = this.alertCtrl.create({

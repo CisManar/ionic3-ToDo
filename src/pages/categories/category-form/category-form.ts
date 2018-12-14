@@ -51,10 +51,6 @@ export class CategoryFormPage {
 
     } else {
 
-
-
-
-    console.log(this.index)
       this.categories[this.index].title = this.category.title;
     }
     Lockr.set('categories', this.categories);
