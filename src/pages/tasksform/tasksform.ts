@@ -70,6 +70,7 @@ export class TasksformPage {
 
     Lockr.set('categories', this.categories)
     console.log('index',this.categoryIndex)
+    //here
     this.events.publish('getTasks', this.categoryIndex);
 
 
