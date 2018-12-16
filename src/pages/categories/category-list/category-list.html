@@ -1,7 +1,7 @@
 <ion-header>
 
-    <ion-navbar color="secondary">
-      <ion-title>categories list</ion-title>
+    <ion-navbar color="main">
+      <ion-title>categories</ion-title>
       <ion-buttons end>
         <button ion-button icon-only  (click)="addCategory()">
           <ion-icon name="add" class="white"></ion-icon>
@@ -13,7 +13,7 @@
 
 
   <ion-content >
-      <ion-list>
+      <ion-list class="list">
           <ion-item-sliding *ngFor="let category of categories">
             <ion-item (click)="categoryTasks(category)">
               <h2>{{category.title}}</h2>

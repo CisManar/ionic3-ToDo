@@ -25,18 +25,26 @@ export class TasksformPage {
     tasktags: []
   };
   tags = [];
+  pageTitle = "";
 
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
     private formbuilder: FormBuilder,
     public events: Events) {
 
+      this.categories = Lockr.get('categories')
+
     this.category = navParams.get('category');
     this.categoryIndex = navParams.get('categoryIndex');
-    this.task = navParams.get('Task') ? navParams.get('task') : this.task;
-    this.tags = navParams.get('Task') ? this.task.tasktags : [];
+
+    this.task = navParams.get('Task') ? navParams.get('Task') : this.task;
+
+    this.tags = this.task.tasktags ? this.task.tasktags : [];
+    this.category.tasktags = this.tags
 
     this.isNew = this.task.title ? false : true;
+
+    this.pageTitle = this.isNew ? "Add New Task" : "Edit Task";
 
     this.taskForm = formbuilder.group({
       title: ['', Validators.required],
@@ -44,7 +52,8 @@ export class TasksformPage {
       dueDate: ['', Validators.required],
       tasktags: []
     })
-    this.taskIndex =navParams.get('Task') ? this.categories[this.categoryIndex].tasks.findIndex((i) => JSON.stringify(i) == JSON.stringify(this.task)) : this.taskIndex;
+
+   this.taskIndex =navParams.get('Task') ? this.categories[this.categoryIndex].tasks.findIndex((i) => JSON.stringify(i) == JSON.stringify(this.task)) : this.taskIndex;
 
     //  this.taskIndex = this.categories[this.categoryIndex].tasks.findIndex(i => JSON.stringify(i) == JSON.stringify(this.task));
   }
@@ -71,7 +80,8 @@ export class TasksformPage {
     Lockr.set('categories', this.categories)
     console.log('index',this.categoryIndex)
     //here
-    this.events.publish('getTasks', this.categoryIndex);
+    let category = this.categories[this.categoryIndex]
+    this.events.publish('getTasks', category);
 
 
     this.navCtrl.pop();

@@ -20,7 +20,14 @@ export class TaskslistPage {
     public events : Events,
     private alertCtrl : AlertController) {
 
-      this.category = this.navParams.get('category');
+      
+
+  }
+
+  ionViewDidLoad() {
+    console.log('ionViewDidLoad TaskslistPage');
+
+    this.category = this.navParams.get('category');
       this.categoryTitle = this.category.title;
       this.categories = Lockr.get('categories') ? Lockr.get('categories') : [] ;
 
@@ -30,21 +37,16 @@ export class TaskslistPage {
       );
       this.tasks = this.categories[this.categoryIndex].tasks;
 
-  }
-
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad TaskslistPage');
+    this.events.subscribe('getTasks',(category) => {
+      console.log(category)
+      this.tasks = category.tasks;
+      console.log(this.tasks)
+    })
   }
 
   ionViewWillEnter() {
 
-
-
-    this.events.subscribe('getTasks',(categoryIndex) => {
-
-      this.tasks = this.categories[categoryIndex].tasks;
-      console.log(this.tasks)
-    })
+    
 
   }
 
@@ -52,8 +54,7 @@ export class TaskslistPage {
     this.navCtrl.push('TasksformPage', { category: this.category , categoryIndex : this.categoryIndex});
   }
   editTask(Task: any) {
-    // this.navCtrl.pop();
-    this.navCtrl.push('TaskFormPage', { category: this.category, categoryIndex : this.categoryIndex, Task: Task });
+    this.navCtrl.push('TasksformPage', { category: this.category, categoryIndex : this.categoryIndex, Task: Task });
 
    }
   confirmDelete(task) {
@@ -72,7 +73,7 @@ export class TaskslistPage {
           text: 'I\'m sure',
           handler: () => {
             this.deleteTask(task)
-            this.events.publish('getTasks',this.categoryIndex);
+   //         this.events.publish('getTasks',this.categoryIndex);
 
           }
         }
@@ -83,13 +84,24 @@ export class TaskslistPage {
 
   deleteTask(task) {
 
+
     let taskIndex = this.categories[this.categoryIndex].tasks.findIndex((i) => JSON.stringify(i) == JSON.stringify(task));
+
     let tasks = this.categories[this.categoryIndex].tasks;
+
     tasks = tasks.filter(i => tasks.indexOf(i) != taskIndex);
 
     this.categories[this.categoryIndex].tasks = tasks;
 
     Lockr.set('categories', this.categories);
-    this.events.publish('getTasks', this.categoryIndex);
+
+    let category = this.categories[this.categoryIndex];
+
+    this.events.publish('getTasks', category);
+  }
+  viewTaskDetails(Task) {
+
+    this.navCtrl.push('TaskDetailsPage' , {category: this.category, Task: Task})
+
   }
 }
